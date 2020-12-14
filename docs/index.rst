@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ``aprsd_slack_plugin`` Documentation
-======================
+====================================
 
 .. include:: ../README.rst
 

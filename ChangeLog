@@ -1,3 +1,9 @@
 CHANGES
 =======
-1.0.0 - First release working against APRSD 1.0.0
+
+* Make aprsd a requirement
+
+v1.0
+----
+
+* Initial commit

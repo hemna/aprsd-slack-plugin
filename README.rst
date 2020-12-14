@@ -1,5 +1,5 @@
 aprsd_slack_plugin
-================
+==================
 
 .. image:: https://github.com/hemna/aprsd-slack-plugin/workflows/python/badge.svg
     :target: https://github.com/hemna/aprsd-slack-plugin/actions
