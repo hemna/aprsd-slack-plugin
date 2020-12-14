@@ -14,3 +14,4 @@ pyee==7.0.4               # via slackeventsapi
 slack-sdk==3.1.0          # via -r requirements.in
 slackeventsapi==2.2.1     # via -r requirements.in
 werkzeug==1.0.1           # via flask
+aprsd

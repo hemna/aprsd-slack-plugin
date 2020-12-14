@@ -8,3 +8,4 @@ black
 isort
 pbr
 Sphinx
+aprsd
