@@ -1,9 +1,11 @@
 CHANGES
 =======
 
-* Make aprsd a requirement
+* remote the pinning of aprsd 1.0.0
 
 v1.0
 ----
 
+* Updates for release
+* Make aprsd a requirement
 * Initial commit
