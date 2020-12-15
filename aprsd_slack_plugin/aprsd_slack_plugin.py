@@ -48,15 +48,37 @@ class SlackCommandPlugin(plugin.APRSDPluginBase):
         """Create the slack require client from config."""
 
         # signing_secret = self.config["slack"]["signing_secret"]
-        bot_token = self.config["slack"]["bot_token"]
+        if "slack" not in self.config:
+            LOG.error("APRSD config is missing slack section")
+            return False
+
+        bot_token = self.config["slack"].get("bot_token", None)
+        if not bot_token:
+            LOG.error(
+                "APRSD config is missing slack: bot_token:<token>. "
+                "Please install the slack app and get the "
+                "Bot User OAth Access Token."
+            )
+            return False
+
         self.swc = WebClient(token=bot_token)
 
-        self.slack_channel = self.config["slack"]["channel"]
+        self.slack_channel = self.config["slack"].get("channel", None)
+        if not self.slack_channel:
+            LOG.error(
+                "APRSD config is missing slack: slack_channel: <name> "
+                "Please add a slack channel name to send messages."
+            )
+            return False
+
+        return True
 
     def command(self, fromcall, message, ack):
         LOG.info("SlackCommandPlugin")
 
-        self._setup_slack()
+        is_setup = self._setup_slack()
+        if not is_setup:
+            return
 
         # now call the location plugin to get the location info
         location_plugin = plugin.LocationPlugin(self.config)
