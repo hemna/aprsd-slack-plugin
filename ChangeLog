@@ -1,9 +1,15 @@
 CHANGES
 =======
 
+v1.0.2
+------
+
+* Reduced the shit
+
 v1.0.1
 ------
 
+* Added some config checking at setup time
 * remote the pinning of aprsd 1.0.0
 
 v1.0
