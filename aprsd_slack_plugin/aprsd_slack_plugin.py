@@ -4,6 +4,8 @@ from aprsd import plugin
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
+import aprsd_slack_plugin
+
 LOG = logging.getLogger("APRSD")
 
 
@@ -38,7 +40,7 @@ class SlackCommandPlugin(plugin.APRSDPluginBase):
             channel: <channel name here>
     """
 
-    version = "1.0"
+    version = aprsd_slack_plugin.__version__
 
     # matches any string starting with h or H
     command_regex = "^[lL]"
