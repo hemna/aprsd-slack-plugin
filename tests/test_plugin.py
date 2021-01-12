@@ -6,7 +6,7 @@ from aprsd_slack_plugin import aprsd_slack_plugin as slack_plugin
 if sys.version_info >= (3, 2):
     from unittest import mock
 else:
-    import mock
+    from unittest import mock
 
 
 class TestPlugin(unittest.TestCase):
@@ -15,7 +15,7 @@ class TestPlugin(unittest.TestCase):
         mock_command.return_value = ""
 
         config = {
-            "slack": {"signing_secret": "something", "bot_token": "sometoken", "channel": "hemna"}
+            "slack": {"signing_secret": "something", "bot_token": "sometoken", "channel": "hemna"},
         }
 
         p = slack_plugin.SlackCommandPlugin(config)

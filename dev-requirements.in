@@ -9,3 +9,4 @@ isort
 pbr
 Sphinx
 aprsd
+pre-commit

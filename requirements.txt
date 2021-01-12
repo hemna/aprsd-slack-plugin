@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-aprsd              # via -r requirements.in
+aprsd>=1.5.0              # via -r requirements.in
 pbr                # via -r requirements.in, aprsd
 requests          # via aprsd
 six               # via aprsd, click-completion, imapclient

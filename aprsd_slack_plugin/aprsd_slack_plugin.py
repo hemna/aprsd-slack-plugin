@@ -1,6 +1,7 @@
 import logging
 
 from aprsd import plugin
+from aprsd.plugins import location as location_plugin
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
@@ -59,7 +60,7 @@ class SlackCommandPlugin(plugin.APRSDPluginBase):
             LOG.error(
                 "APRSD config is missing slack: bot_token:<token>. "
                 "Please install the slack app and get the "
-                "Bot User OAth Access Token."
+                "Bot User OAth Access Token.",
             )
             return False
 
@@ -69,7 +70,7 @@ class SlackCommandPlugin(plugin.APRSDPluginBase):
         if not self.slack_channel:
             LOG.error(
                 "APRSD config is missing slack: slack_channel: <name> "
-                "Please add a slack channel name to send messages."
+                "Please add a slack channel name to send messages.",
             )
             return False
 
@@ -83,8 +84,8 @@ class SlackCommandPlugin(plugin.APRSDPluginBase):
             return
 
         # now call the location plugin to get the location info
-        location_plugin = plugin.LocationPlugin(self.config)
-        location = location_plugin.command(fromcall, message, ack)
+        lp = location_plugin.LocationPlugin(self.config)
+        location = lp.command(fromcall, message, ack)
         if location:
             reply = location
 
@@ -94,8 +95,9 @@ class SlackCommandPlugin(plugin.APRSDPluginBase):
             except SlackApiError as e:
                 LOG.error(
                     "Failed to send message to channel '{}' because '{}'".format(
-                        self.slack_channel, str(e)
-                    )
+                        self.slack_channel,
+                        str(e),
+                    ),
                 )
         else:
             LOG.debug("SlackCommandPlugin couldn't get location for '{}'".format(fromcall))

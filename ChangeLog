@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+v1.0.3
+------
+
+* Plugin gets the version from pbr version now
+
 v1.0.2
 ------
 

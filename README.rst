@@ -10,7 +10,7 @@ aprsd_slack_plugin
 .. image:: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
     :target: https://timothycrosley.github.io/isort/
 
-This project is a python plugin for the APRSD server daemon written by 
+This project is a python plugin for the APRSD server daemon written by
 Craig Lamparter.   The plugin looks for location APRS commands from a ham
 radio, then reports that location to a slack channel.  This is basically a
 location proxy.
