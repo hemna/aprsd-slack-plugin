@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+v1.0.4
+------
+
+* Added Makefile, pre-commit. Also update for 1.5.0
+
 v1.0.3
 ------
 
