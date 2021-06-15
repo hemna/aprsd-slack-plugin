@@ -10,3 +10,4 @@ pbr
 Sphinx
 aprsd
 pre-commit
+pip-tools
