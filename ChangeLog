@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* fixed tests after refactoring
 * prep for release
 * new updated location plugin
 * Updated slack formatting
