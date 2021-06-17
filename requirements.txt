@@ -143,8 +143,6 @@ six==1.15.0
     #   python-dateutil
 slack-sdk==3.6.0
     # via -r requirements.in
-slackblocks==0.2.3
-    # via -r requirements.in
 slackeventsapi==2.2.1
     # via -r requirements.in
 thesmuggler==1.0.1
