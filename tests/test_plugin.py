@@ -1,7 +1,7 @@
 import sys
 import unittest
 
-from aprsd_slack_plugin import aprsd_slack_plugin as slack_plugin
+from aprsd_slack_plugin import location_plugin
 
 if sys.version_info >= (3, 2):
     from unittest import mock
@@ -10,7 +10,7 @@ else:
 
 
 class TestPlugin(unittest.TestCase):
-    @mock.patch.object(slack_plugin.SlackCommandPlugin, "command")
+    @mock.patch.object(location_plugin.SlackLocationPlugin, "command")
     def test_plugin(self, mock_command):
         mock_command.return_value = ""
 
@@ -18,5 +18,5 @@ class TestPlugin(unittest.TestCase):
             "slack": {"signing_secret": "something", "bot_token": "sometoken", "channel": "hemna"},
         }
 
-        p = slack_plugin.SlackCommandPlugin(config)
+        p = location_plugin.SlackLocationPlugin(config)
         p.command("KM6LYW", "location", 1)
