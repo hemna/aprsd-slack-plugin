@@ -92,11 +92,14 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase):
             alt = 0
         altfeet = int(alt * 3.28084)
         aprs_lasttime_seconds = aprs_data["entries"][0]["lasttime"]
-        # aprs_lasttime_seconds = aprs_lasttime_seconds.encode(
-        #    "ascii", errors="ignore"
-        # )  # unicode to ascii
         delta_seconds = time.time() - int(aprs_lasttime_seconds)
         delta_hours = delta_seconds / 60 / 60
+
+        wx_data = None
+        try:
+            wx_data = plugin_utils.get_weather_gov_for_gps(lat, lon)
+        except Exception:
+            LOG.warning("Couldn't fetch forecast.weather.gov")
 
         callsign_url = "<http://aprs.fi/info/a/{}|{}>".format(searchcall, searchcall)
 
@@ -115,8 +118,20 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase):
         attachment = message["attachments"][0]
         attachment["fallback"] = message["text"]
         attachment["fields"] = []
+
+        # if the coordinates are outside of the US, we don't get this
+        # aread description
+        if wx_data and "location" in wx_data and "areaDescription" in wx_data["location"]:
+            attachment["fields"].append(
+                {
+                    "title": "Location",
+                    "value": wx_data["location"]["areaDescription"],
+                    "short": True,
+                },
+            )
+
         attachment["fields"].append(
-            {"title": "Location", "value": aprs_url, "short": True},
+            {"title": "Map Location", "value": aprs_url, "short": True},
         )
         attachment["fields"].append(
             {
