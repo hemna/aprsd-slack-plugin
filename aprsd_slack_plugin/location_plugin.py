@@ -2,7 +2,7 @@ import logging
 import re
 import time
 
-from aprsd import messaging, plugin_utils
+from aprsd import messaging, plugin, plugin_utils
 from aprsd import utils as aprsd_utils
 
 import aprsd_slack_plugin
@@ -11,7 +11,7 @@ from aprsd_slack_plugin import base_plugin
 LOG = logging.getLogger("APRSD")
 
 
-class SlackLocationPlugin(base_plugin.SlackPluginBase):
+class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDMessagePluginBase):
     """SlackCommandPlugin.
 
     This APRSD plugin looks for the location command comming in
