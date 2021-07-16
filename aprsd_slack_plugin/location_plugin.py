@@ -48,8 +48,11 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase):
     command_regex = "^[lL]"
     command_name = "location-slack"
 
-    def command(self, fromcall, message, ack):
+    def command(self, packet):
         LOG.info("SlackCommandPlugin")
+
+        fromcall = packet["from"]
+        message = packet["message_text"]
 
         is_setup = self.setup_slack()
         if not is_setup:
