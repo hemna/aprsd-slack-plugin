@@ -1,6 +1,8 @@
 CHANGES
 =======
 
+* Updated to work with 2.0.0
+* Added new notification and location plugin
 * Update for new plugin interface.  Add Notify plugin
 * Added geo description in location
 * fixed tests for tox
