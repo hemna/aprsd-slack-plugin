@@ -12,7 +12,7 @@ class SlackNotifyPlugin(
     base_plugin.SlackPluginBase,
     plugin.APRSDNotificationPluginBase,
 ):
-    """SlackNotifyPlugin. """
+    """SlackNotifyPlugin."""
 
     version = aprsd_slack_plugin.__version__
 
