@@ -10,13 +10,13 @@ LOG = logging.getLogger("APRSD")
 
 class SlackNotifyPlugin(
     base_plugin.SlackPluginBase,
-    plugin.APRSDNotificationPluginBase,
+    plugin.APRSDWatchListPluginBase,
 ):
     """SlackNotifyPlugin."""
 
     version = aprsd_slack_plugin.__version__
 
-    def notify(self, packet):
+    def process(self, packet):
         LOG.info("SlackCommandPlugin")
 
         fromcall = packet["from"]
