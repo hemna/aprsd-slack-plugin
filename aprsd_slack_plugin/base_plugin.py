@@ -1,6 +1,5 @@
 import logging
 
-from aprsd import utils as aprsd_utils
 from slack_sdk import WebClient
 
 import aprsd_slack_plugin
@@ -46,7 +45,7 @@ class SlackPluginBase:
 
         # signing_secret = self.config["slack"]["signing_secret"]
         try:
-            aprsd_utils.check_config_option(self.config, ["services", "slack", "bot_token"])
+            self.config.exists(["services", "slack", "bot_token"])
         except Exception as ex:
             LOG.error("Failed to find config slack:bot_token {}".format(ex))
             return "No slack bot_token found"

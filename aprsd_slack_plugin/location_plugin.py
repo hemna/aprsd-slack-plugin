@@ -2,8 +2,7 @@ import logging
 import re
 import time
 
-from aprsd import messaging, plugin_utils
-from aprsd import utils as aprsd_utils
+from aprsd import messaging, plugin, plugin_utils
 
 import aprsd_slack_plugin
 from aprsd_slack_plugin import base_plugin
@@ -11,7 +10,7 @@ from aprsd_slack_plugin import base_plugin
 LOG = logging.getLogger("APRSD")
 
 
-class SlackLocationPlugin(base_plugin.SlackPluginBase):
+class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandPluginBase):
     """SlackCommandPlugin.
 
     This APRSD plugin looks for the location command comming in
@@ -48,7 +47,7 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase):
     command_regex = "^[lL]"
     command_name = "location-slack"
 
-    def command(self, packet):
+    def process(self, packet):
         LOG.info("SlackCommandPlugin")
 
         fromcall = packet["from"]
@@ -60,7 +59,7 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase):
 
         # get last location of a callsign, get descriptive name from weather service
         try:
-            aprsd_utils.check_config_option(self.config, ["services", "aprs.fi", "apiKey"])
+            self.config.exists(["services", "aprs.fi", "apiKey"])
         except Exception as ex:
             LOG.error("Failed to find config aprs.fi:apikey {}".format(ex))
             return "No aprs.fi apikey found"
