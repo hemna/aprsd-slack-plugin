@@ -1,13 +1,7 @@
-import sys
 import unittest
+from unittest import mock
 
 from aprsd_slack_plugin import location_plugin
-
-
-if sys.version_info >= (3, 2):
-    from unittest import mock
-else:
-    from unittest import mock
 
 
 class TestPlugin(unittest.TestCase):
