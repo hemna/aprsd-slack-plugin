@@ -3,6 +3,7 @@ import unittest
 
 from aprsd_slack_plugin import location_plugin
 
+
 if sys.version_info >= (3, 2):
     from unittest import mock
 else:
@@ -10,7 +11,7 @@ else:
 
 
 class TestPlugin(unittest.TestCase):
-    @mock.patch.object(location_plugin.SlackLocationPlugin, "command")
+    @mock.patch.object(location_plugin.SlackLocationPlugin, "filter")
     def test_plugin(self, mock_command):
         mock_command.return_value = ""
 
@@ -19,4 +20,5 @@ class TestPlugin(unittest.TestCase):
         }
 
         p = location_plugin.SlackLocationPlugin(config)
-        p.command("KM6LYW", "location", 1)
+        packet = {"from": "WB4BOR", "message_text": "location"}
+        p.filter(packet)
