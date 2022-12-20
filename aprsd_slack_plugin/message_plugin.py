@@ -1,10 +1,11 @@
 import logging
 import re
 
-from aprsd import messaging
+from aprsd import packets
 
 import aprsd_slack_plugin
 from aprsd_slack_plugin import base_plugin
+
 
 LOG = logging.getLogger("APRSD")
 
@@ -46,9 +47,9 @@ class SlackMessagePlugin(base_plugin.SlackPluginBase):
     command_name = "message-slack"
 
     def command(self, packet):
-        message = packet.get("message_text", None)
-        fromcall = packet.get("from", None)
-        LOG.info("SlackMessagePlugin '{}'".format(message))
+        message = packet.message_text
+        fromcall = packet.from_call
+        LOG.info(f"SlackMessagePlugin '{message}'")
 
         is_setup = self.setup_slack()
         if not is_setup:
@@ -68,7 +69,7 @@ class SlackMessagePlugin(base_plugin.SlackPluginBase):
         slack_message = {}
         slack_message["username"] = "APRSD - Slack Message Plugin"
         slack_message["icon_emoji"] = ":satellite_antenna:"
-        slack_message["text"] = "{} says {}".format(fromcall, message)
+        slack_message["text"] = f"{fromcall} says {message}"
         slack_message["channel"] = "#random"
 
         LOG.debug(slack_message)
@@ -79,4 +80,4 @@ class SlackMessagePlugin(base_plugin.SlackPluginBase):
         #    self.swc.chat_postMessage(**message)
 
         # Don't have aprsd try and send a reply
-        return messaging.NULL_MESSAGE
+        return packets.NULL_MESSAGE

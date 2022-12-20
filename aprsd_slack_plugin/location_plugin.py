@@ -2,10 +2,11 @@ import logging
 import re
 import time
 
-from aprsd import messaging, plugin, plugin_utils
+from aprsd import packets, plugin, plugin_utils
 
 import aprsd_slack_plugin
 from aprsd_slack_plugin import base_plugin
+
 
 LOG = logging.getLogger("APRSD")
 
@@ -50,8 +51,8 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
     def process(self, packet):
         LOG.info("SlackCommandPlugin")
 
-        fromcall = packet["from"]
-        message = packet["message_text"]
+        fromcall = packet.from_call
+        message = packet.message_text
 
         is_setup = self.setup_slack()
         if not is_setup:
@@ -61,7 +62,7 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
         try:
             self.config.exists(["services", "aprs.fi", "apiKey"])
         except Exception as ex:
-            LOG.error("Failed to find config aprs.fi:apikey {}".format(ex))
+            LOG.error(f"Failed to find config aprs.fi:apikey {ex}")
             return "No aprs.fi apikey found"
 
         api_key = self.config["services"]["aprs.fi"]["apiKey"]
@@ -78,10 +79,10 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
         try:
             aprs_data = plugin_utils.get_aprs_fi(api_key, searchcall)
         except Exception as ex:
-            LOG.error("Failed to fetch aprs.fi '{}'".format(ex))
+            LOG.error(f"Failed to fetch aprs.fi '{ex}'")
             return "Failed to fetch aprs.fi location"
 
-        LOG.debug("LocationPlugin: aprs_data = {}".format(aprs_data))
+        LOG.debug(f"LocationPlugin: aprs_data = {aprs_data}")
         if not len(aprs_data["entries"]):
             LOG.error("Didn't get any entries from aprs.fi")
             return "Failed to fetch aprs.fi location"
@@ -103,7 +104,7 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
         except Exception:
             LOG.warning("Couldn't fetch forecast.weather.gov")
 
-        callsign_url = "<http://aprs.fi/info/a/{}|{}>".format(searchcall, searchcall)
+        callsign_url = f"<http://aprs.fi/info/a/{searchcall}|{searchcall}>"
 
         aprs_url = "<http://aprs.fi/#!mt=roadmap&z=15&lat={}&lng={}|" " http://aprs.fi/>".format(
             lat,
@@ -114,7 +115,7 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
         message["username"] = "APRSD - Slack Location Plugin"
         message["icon_emoji"] = ":satellite_antenna:"
         message["attachments"] = [{}]
-        message["text"] = "{} - Location".format(callsign_url)
+        message["text"] = f"{callsign_url} - Location"
         message["channel"] = "#random"
 
         attachment = message["attachments"][0]
@@ -140,15 +141,15 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
                 "title": "Altitude",
                 "value": altfeet,
                 "short": True,
-                "fallback": "Altitude - {}".format(altfeet),
+                "fallback": f"Altitude - {altfeet}",
             },
         )
         attachment["fields"].append(
             {
                 "title": "Time",
-                "value": "{} h ago".format(round(delta_hours, 1)),
+                "value": f"{round(delta_hours, 1)} h ago",
                 "short": True,
-                "fallback": "Time {} h ago".format(round(delta_hours, 1)),
+                "fallback": f"Time {round(delta_hours, 1)} h ago",
             },
         )
 
@@ -160,4 +161,4 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
             self.swc.chat_postMessage(**message)
 
         # Don't have aprsd try and send a reply
-        return messaging.NULL_MESSAGE
+        return packets.NULL_MESSAGE
