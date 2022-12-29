@@ -46,7 +46,7 @@ class SlackMessagePlugin(base_plugin.SlackPluginBase):
     version = aprsd_slack_plugin.__version__
 
     # matches any string starting with h or H
-    command_regex = "^[sS]"
+    command_regex = r"^([s]|[s]\s|slack)"
     command_name = "message-slack"
 
     def setup(self):
