@@ -3,15 +3,21 @@ import re
 import time
 
 from aprsd import packets, plugin, plugin_utils
+from oslo_config import cfg
 
 import aprsd_slack_plugin
 from aprsd_slack_plugin import base_plugin
 
 
+CONF = cfg.CONF
 LOG = logging.getLogger("APRSD")
 
 
-class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandPluginBase):
+class SlackLocationPlugin(
+    base_plugin.SlackPluginBase,
+    plugin.APRSDRegexCommandPluginBase,
+    plugin.APRSFIKEYMixin,
+):
     """SlackCommandPlugin.
 
     This APRSD plugin looks for the location command comming in
@@ -35,7 +41,7 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
 
         Install the app/bot into your workspace.
 
-        Edit your ~/.config/aprsd/aprsd.yml and add the section
+        Edit your ~/.config/aprsd/aprsd.conf and add the section
         slack:
             signing_secret: <signing secret token here>
             bot_token: <Bot User OAuth Access Token here>
@@ -48,24 +54,21 @@ class SlackLocationPlugin(base_plugin.SlackPluginBase, plugin.APRSDRegexCommandP
     command_regex = "^[lL]"
     command_name = "location-slack"
 
+    def setup(self):
+        self.ensure_aprs_fi_key()
+        if self.enabled:
+            config_set = self.setup_slack()
+            if not config_set:
+                self.enabled = False
+
     def process(self, packet):
         LOG.info("SlackCommandPlugin")
 
         fromcall = packet.from_call
         message = packet.message_text
 
-        is_setup = self.setup_slack()
-        if not is_setup:
-            return
-
         # get last location of a callsign, get descriptive name from weather service
-        try:
-            self.config.exists(["services", "aprs.fi", "apiKey"])
-        except Exception as ex:
-            LOG.error(f"Failed to find config aprs.fi:apikey {ex}")
-            return "No aprs.fi apikey found"
-
-        api_key = self.config["services"]["aprs.fi"]["apiKey"]
+        api_key = CONF.aprs_fi.apiKey
 
         # optional second argument is a callsign to search
         a = re.search(r"^.*\s+(.*)", message)

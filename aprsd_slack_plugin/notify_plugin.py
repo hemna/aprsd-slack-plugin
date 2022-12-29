@@ -1,10 +1,13 @@
 import logging
 
 from aprsd import messaging, packets, plugin
+from oslo_config import cfg
 
 import aprsd_slack_plugin
 from aprsd_slack_plugin import base_plugin
 
+
+CONF = cfg.CONF
 LOG = logging.getLogger("APRSD")
 
 
@@ -16,10 +19,17 @@ class SlackNotifyPlugin(
 
     version = aprsd_slack_plugin.__version__
 
+    def setup(self):
+        config_set = self.setup_slack()
+        if not config_set:
+            self.enabled = False
+        else:
+            self.enabled = True
+
     def process(self, packet):
         LOG.info("SlackCommandPlugin")
 
-        fromcall = packet["from"]
+        fromcall = packet.from_call
         # message = packet["message_text"]
 
         is_setup = self.setup_slack()
@@ -29,13 +39,13 @@ class SlackNotifyPlugin(
         wl = packets.WatchList()
         if wl.is_old(packet["from"]):
             # get last location of a callsign, get descriptive name from weather service
-            callsign_url = "<http://aprs.fi/info/a/{}|{}>".format(fromcall, fromcall)
+            callsign_url = f"<http://aprs.fi/info/a/{fromcall}|{fromcall}>"
 
             message = {}
             message["username"] = "APRSD - Slack Notification Plugin"
             message["icon_emoji"] = ":satellite_antenna:"
             message["attachments"] = [{}]
-            message["text"] = "{} - Is now on APRS".format(callsign_url)
+            message["text"] = f"{callsign_url} - Is now on APRS"
             message["channel"] = "#hemna"
 
             LOG.debug(message)

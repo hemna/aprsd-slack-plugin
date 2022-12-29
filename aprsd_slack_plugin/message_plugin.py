@@ -2,11 +2,13 @@ import logging
 import re
 
 from aprsd import packets
+from oslo_config import cfg
 
 import aprsd_slack_plugin
 from aprsd_slack_plugin import base_plugin
 
 
+CONF = cfg.CONF
 LOG = logging.getLogger("APRSD")
 
 
@@ -46,19 +48,20 @@ class SlackMessagePlugin(base_plugin.SlackPluginBase):
     command_regex = "^[sS]"
     command_name = "message-slack"
 
+    def setup(self):
+        config_set = self.setup_slack()
+        if not config_set:
+            self.enabled = False
+        else:
+            self.enabled = True
+
     def command(self, packet):
         message = packet.message_text
         fromcall = packet.from_call
         LOG.info(f"SlackMessagePlugin '{message}'")
 
-        is_setup = self.setup_slack()
-        if not is_setup:
-            LOG.error("Slack isn't setup!")
-            return
-
         # optional second argument is a callsign to search
         a = re.search(r"^.*\s+(.*)", message)
-        LOG.debug(a)
         if a is not None:
             searchcall = a.group(1)
             searchcall = searchcall.upper()

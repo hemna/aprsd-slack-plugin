@@ -1,9 +1,12 @@
 import logging
 
+from oslo_config import cfg
 from slack_sdk import WebClient
 
 import aprsd_slack_plugin
 
+
+CONF = cfg.CONF
 LOG = logging.getLogger("APRSD")
 
 
@@ -39,33 +42,29 @@ class SlackPluginBase:
     """
 
     version = aprsd_slack_plugin.__version__
+    swc = None
+    slack_channels = None
 
     def setup_slack(self):
         """Create the slack require client from config."""
 
-        # signing_secret = self.config["slack"]["signing_secret"]
-        try:
-            self.config.exists(["services", "slack", "bot_token"])
-        except Exception as ex:
-            LOG.error("Failed to find config slack:bot_token {}".format(ex))
-            return "No slack bot_token found"
+        if not CONF.aprsd_slack_plugin.signing_secret:
+            LOG.error("Failed to find config aprsd_slack_plugin.signing_secret")
+            return "No slack signing_secret found"
 
-        bot_token = self.config["services"]["slack"]["bot_token"]
-        if not bot_token:
+        if not CONF.aprsd_slack_plugin.bot_token:
             LOG.error(
-                "APRSD config is missing slack: bot_token:<token>. "
+                "APRSD config is missing aprsd_slack_plugin.bot_token. "
                 "Please install the slack app and get the "
                 "Bot User OAth Access Token.",
             )
             return False
 
-        self.swc = WebClient(token=bot_token)
-        self.slack_channels = self.config["services"]["slack"].get("channels", None)
-        if not self.slack_channels:
-            LOG.error(
-                "APRSD config is missing slack: channels: <name> "
-                "Please add a slack channel name to send messages.",
-            )
+        if not CONF.aprsd_slack_plugin.channels:
+            LOG.error("aprsd_slack_plugin.channels is missing")
             return False
+
+        self.swc = WebClient(token=CONF.aprsd_slack_plugin.bot_token)
+        self.slack_channels = CONF.aprsd_slack_plugin.channels
 
         return True

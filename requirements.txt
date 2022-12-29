@@ -4,13 +4,13 @@
 #
 #    pip-compile --annotation-style=line --resolver=backtracking requirements.in
 #
-aprsd==2.6.1              # via -r requirements.in
+aprsd==3.0.0              # via -r requirements.in
 aprslib==0.7.2            # via aprsd
-attrs==22.1.0             # via aprsd, ax253, kiss3
+attrs==22.2.0             # via aprsd, ax253, kiss3
 ax253==0.1.5.post1        # via aprsd, kiss3
 beautifulsoup4==4.11.1    # via aprsd
 bidict==0.22.0            # via aprsd, python-socketio
-bitarray==2.6.0           # via aprsd, ax253, kiss3
+bitarray==2.6.1           # via aprsd, ax253, kiss3
 certifi==2022.12.7        # via aprsd, requests
 cffi==1.15.1              # via aprsd, cryptography
 charset-normalizer==2.1.1  # via aprsd, requests
@@ -27,7 +27,7 @@ flask-socketio==5.3.2     # via aprsd
 greenlet==2.0.1           # via aprsd, eventlet
 idna==3.4                 # via aprsd, requests
 imapclient==2.3.1         # via aprsd
-importlib-metadata==5.1.0  # via aprsd, ax253, flask, kiss3
+importlib-metadata==5.2.0  # via aprsd, ax253, flask, kiss3
 itsdangerous==2.1.2       # via aprsd, flask
 jinja2==3.1.2             # via aprsd, click-completion, flask
 kiss3==8.0.0              # via aprsd
@@ -42,7 +42,7 @@ pyserial==3.5             # via aprsd, pyserial-asyncio
 pyserial-asyncio==0.6     # via aprsd, kiss3
 python-engineio==4.3.4    # via aprsd, python-socketio
 python-socketio==5.7.2    # via aprsd, flask-socketio
-pytz==2022.6              # via aprsd
+pytz==2022.7              # via aprsd
 pyyaml==6.0               # via aprsd
 requests==2.28.1          # via aprsd, update-checker
 rich==12.6.0              # via aprsd
