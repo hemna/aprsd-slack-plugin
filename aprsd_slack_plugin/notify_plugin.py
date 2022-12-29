@@ -1,6 +1,6 @@
 import logging
 
-from aprsd import messaging, packets, plugin
+from aprsd import packets, plugin
 from oslo_config import cfg
 
 import aprsd_slack_plugin
@@ -53,4 +53,4 @@ class SlackNotifyPlugin(
                 self.swc.chat_postMessage(**message)
 
         # Don't have aprsd try and send a reply
-        return messaging.NULL_MESSAGE
+        return packets.NULL_MESSAGE
