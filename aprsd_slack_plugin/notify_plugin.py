@@ -5,6 +5,7 @@ from oslo_config import cfg
 
 import aprsd_slack_plugin
 from aprsd_slack_plugin import base_plugin
+from aprsd_slack_plugin import conf  # noqa
 
 
 CONF = cfg.CONF
@@ -32,12 +33,8 @@ class SlackNotifyPlugin(
         fromcall = packet.from_call
         # message = packet["message_text"]
 
-        is_setup = self.setup_slack()
-        if not is_setup:
-            return
-
         wl = packets.WatchList()
-        if wl.is_old(packet["from"]):
+        if wl.is_old(fromcall):
             # get last location of a callsign, get descriptive name from weather service
             callsign_url = f"<http://aprs.fi/info/a/{fromcall}|{fromcall}>"
 

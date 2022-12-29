@@ -6,6 +6,7 @@ from oslo_config import cfg
 
 import aprsd_slack_plugin
 from aprsd_slack_plugin import base_plugin
+from aprsd_slack_plugin import conf  # noqa
 
 
 CONF = cfg.CONF
