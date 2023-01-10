@@ -1,9 +1,24 @@
 CHANGES
 =======
 
+v1.2.0
+------
+
+* Update for aprsd 3.0.0
+
+v1.1.0
+------
+
+* Updated regex for message plugin
+* Removed import of aprsd.messaging
+* Fixed missing import for config
+* Update for APRSD 3.0.0 release
+* Update for aprsd >= 2.7.0
+
 v1.0.5
 ------
 
+* 1.0.5
 * cleanup
 * fix tox runs
 * More cleanup
