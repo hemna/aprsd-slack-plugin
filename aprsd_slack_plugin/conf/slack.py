@@ -11,8 +11,8 @@ slack_opts = [
         "signing_secret",
         default=None,
         help="Your Slack account signing secret"
-             "You have to create a slack bot account first.  "
-             "https://api.slack.com/start/building/bolt-python",
+        "You have to create a slack bot account first.  "
+        "https://api.slack.com/start/building/bolt-python",
     ),
     cfg.StrOpt(
         "bot_token",
@@ -23,13 +23,11 @@ slack_opts = [
         "channels",
         default=None,
         help="The channels you want messages sent to. This is a CSV list"
-             "of slack channel names.",
+        "of slack channel names.",
     ),
 ]
 
-ALL_OPTS = (
-    slack_opts
-)
+ALL_OPTS = slack_opts
 
 
 def register_opts(cfg):
