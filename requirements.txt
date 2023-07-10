@@ -4,7 +4,7 @@
 #
 #    pip-compile --annotation-style=line --resolver=backtracking requirements.in
 #
-aprsd>=3.0.0              # via -r requirements.in
+aprsd              # via -r requirements.in
 aprslib==0.7.2            # via aprsd
 attrs==22.2.0             # via aprsd, ax253, kiss3
 ax253==0.1.5.post1        # via aprsd, kiss3
