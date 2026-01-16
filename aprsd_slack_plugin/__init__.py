@@ -10,6 +10,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import pbr.version
+try:
+    from importlib.metadata import PackageNotFoundError, version
+except ImportError:
+    # Python < 3.8
+    from importlib_metadata import PackageNotFoundError, version
 
-__version__ = pbr.version.VersionInfo("aprsd_slack_plugin").version_string()
+try:
+    __version__ = version("aprsd_slack_plugin")
+except PackageNotFoundError:
+    __version__ = "unknown"

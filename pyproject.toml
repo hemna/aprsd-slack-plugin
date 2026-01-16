@@ -2,11 +2,53 @@
 requires = ["setuptools>=46.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.black]
-# Use the more relaxed max line length permitted in PEP8.
-line-length = 99
-target-version = ["py36", "py37", "py38"]
-# black will automatically exclude all files listed in .gitignore
+[project]
+name = "aprsd_slack_plugin"
+version = "1.2.0"
+description = "Amateur radio APRS daemon which listens for messages and responds"
+readme = "README.rst"
+requires-python = ">=3.11"
+license = {file = "LICENSE.txt"}
+authors = [
+    {name = "Walter A. Boring IV", email = "something@somewhere.com"}
+]
+classifiers = [
+    "Topic :: Communications :: Ham Radio",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "slack_sdk>=3.0",
+    "slackeventsapi>=2.1.0",
+    "aprsd",
+    "oslo_config",
+]
+
+[project.optional-dependencies]
+dev = [
+    "tox",
+    "pytest",
+    "pytest-cov",
+    "mypy",
+    "flake8",
+    "pep8-naming",
+    "black",
+    "isort",
+    "sphinx",
+    "pre-commit",
+    "pip-tools",
+]
+
+[project.entry-points]
+"oslo.config.opts" = { "aprsd_slack_plugin.conf" = "aprsd_slack_plugin.conf.opts:list_opts" }
+
+[tool.setuptools]
+packages = ["aprsd_slack_plugin"]
+
+[tool.setuptools.package-data]
+aprsd_slack_plugin = ["py.typed"]
+
 
 [tool.isort]
 profile = "black"
@@ -20,3 +62,7 @@ skip_gitignore = true
 
 [tool.coverage.run]
 branch = true
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
