@@ -21,7 +21,6 @@ classifiers = [
 dependencies = [
     "slack_sdk>=3.0",
     "slackeventsapi>=2.1.0",
-    "aprsd",
     "oslo_config",
 ]
 
