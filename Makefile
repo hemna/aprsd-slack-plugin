@@ -17,8 +17,8 @@ help:	# Help for the Makefile
 dev: venv  ## Create the virtualenv with all the requirements installed
 
 docs: build
-	cp README.rst docs/readme.rst
-	cp Changelog docs/changelog.rst
+	cp README.md docs/readme.md
+	cp ChangeLog docs/changelog.rst
 	tox -edocs
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts

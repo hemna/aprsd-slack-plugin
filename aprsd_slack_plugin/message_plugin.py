@@ -5,9 +5,10 @@ from aprsd import packets
 from oslo_config import cfg
 
 import aprsd_slack_plugin
-from aprsd_slack_plugin import base_plugin
-from aprsd_slack_plugin import conf  # noqa
-
+from aprsd_slack_plugin import (
+    base_plugin,
+    conf,  # noqa
+)
 
 CONF = cfg.CONF
 LOG = logging.getLogger("APRSD")
@@ -20,23 +21,22 @@ class SlackMessagePlugin(base_plugin.SlackPluginBase):
     to aprsd, then forwards the message to the configured slack channel.
 
     To use this:
-        Create a slack bot for your workspace at api.slack.com.
-        A good source of information on how to create the app
-        and the tokens and permissions and install the app in your
-        workspace is here:
 
-            https://api.slack.com/start/building/bolt-python
+    1. Create a slack bot for your workspace at api.slack.com.
+       A good source of information is here:
+       https://api.slack.com/start/building/bolt-python
 
+    2. You will need the signing secret from the Basic Information ->
+       App Credentials form.
 
-        You will need the signing secret from the
-        Basic Information -> App Credentials form.
-        You will also need the Bot User OAuth Access Token from
-        OAuth & Permissions -> OAuth Tokens for Your Team ->
-        Bot User OAuth Access Token.
+    3. You will also need the Bot User OAuth Access Token from
+       OAuth & Permissions -> OAuth Tokens for Your Team ->
+       Bot User OAuth Access Token.
 
-        Install the app/bot into your workspace.
+    4. Install the app/bot into your workspace.
 
-        Edit your ~/.config/aprsd/aprsd.yml and add the section
+    5. Edit your ~/.config/aprsd/aprsd.yml and add the section::
+
         slack:
             signing_secret: <signing secret token here>
             bot_token: <Bot User OAuth Access Token here>

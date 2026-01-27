@@ -6,7 +6,7 @@
 ``aprsd_slack_plugin`` Documentation
 ====================================
 
-.. include:: ../README.rst
+For installation, configuration, and usage instructions, see the `README.md <https://github.com/hemna/aprsd-slack-plugin/blob/main/README.md>`_ file.
 
 .. toctree::
    :maxdepth: 2

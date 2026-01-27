@@ -1,4 +1,4 @@
-include README.rst
+include README.md
 include LICENSE.txt
 include requirements.txt
 include aprsd_slack_plugin/py.typed

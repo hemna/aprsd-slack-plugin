@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "aprsd_slack_plugin"
 version = "1.2.0"
 description = "Amateur radio APRS daemon which listens for messages and responds"
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.11"
 license = {file = "LICENSE.txt"}
 authors = [
