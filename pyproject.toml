@@ -1,6 +1,3 @@
-[build-system]
-requires = ["setuptools>=46.0", "wheel"]
-build-backend = "setuptools.build_meta"
 
 [project]
 name = "aprsd_slack_plugin"
@@ -39,15 +36,13 @@ dev = [
     "pip-tools",
 ]
 
-[project.entry-points]
-"oslo.config.opts" = { "aprsd_slack_plugin.conf" = "aprsd_slack_plugin.conf.opts:list_opts" }
+[project.entry-points."oslo.config.opts"]
+"aprsd_slack_plugin.conf" = "aprsd_slack_plugin.conf.opts:list_opts"
 
 [tool.setuptools]
+py-modules = ["aprsd_slack_plugin"]
+package-data = {aprsd_slack_plugin = ["*.dat"]}
 packages = ["aprsd_slack_plugin"]
-
-[tool.setuptools.package-data]
-aprsd_slack_plugin = ["py.typed"]
-
 
 [tool.isort]
 profile = "black"
@@ -59,9 +54,62 @@ skip_gitignore = true
 # If you need to skip/exclude folders, consider using skip_glob as that will allow the
 # isort defaults for skip to remain without the need to duplicate them.
 
-[tool.coverage.run]
-branch = true
-
 [tool.mypy]
 ignore_missing_imports = true
 strict = true
+
+[build-system]
+requires = [
+    "setuptools>=80.0",
+    "setuptools_scm>=0",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=aprsd_slack_plugin",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["aprsd_slack_plugin"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+]
+[tool.setuptools_scm]

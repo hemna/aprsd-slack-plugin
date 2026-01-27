@@ -111,10 +111,7 @@ class SlackLocationPlugin(
         callsign_url = f"<http://aprs.fi/info/a/{searchcall}|{searchcall}>"
 
         aprs_url = (
-            "<http://aprs.fi/#!mt=roadmap&z=15&lat={}&lng={}| http://aprs.fi/>".format(
-                lat,
-                lon,
-            )
+            f"<http://aprs.fi/#!mt=roadmap&z=15&lat={lat}&lng={lon}| http://aprs.fi/>"
         )
 
         message = {}

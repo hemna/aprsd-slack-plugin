@@ -4,9 +4,10 @@ from aprsd import packets, plugin
 from oslo_config import cfg
 
 import aprsd_slack_plugin
-from aprsd_slack_plugin import base_plugin
-from aprsd_slack_plugin import conf  # noqa
-
+from aprsd_slack_plugin import (
+    base_plugin,
+    conf,  # noqa
+)
 
 CONF = cfg.CONF
 LOG = logging.getLogger("APRSD")
