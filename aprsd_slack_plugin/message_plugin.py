@@ -60,10 +60,10 @@ class SlackMessagePlugin(
         else:
             self.enabled = True
 
-    def command(self, packet):
+    def process(self, packet):
+        LOG.info(f"SlackMessagePlugin '{message}'")
         message = packet.message_text
         fromcall = packet.from_call
-        LOG.info(f"SlackMessagePlugin '{message}'")
 
         # optional second argument is a callsign to search
         a = re.search(r"^.*\s+(.*)", message)
