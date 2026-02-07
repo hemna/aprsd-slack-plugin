@@ -1,7 +1,6 @@
 
 [project]
 name = "aprsd_slack_plugin"
-version = "1.2.0"
 description = "Amateur radio APRS daemon which listens for messages and responds"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -20,6 +19,7 @@ dependencies = [
     "slackeventsapi>=2.1.0",
     "oslo_config",
 ]
+dynamic = ["version"]
 
 [project.optional-dependencies]
 dev = [
