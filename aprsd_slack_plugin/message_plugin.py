@@ -1,7 +1,7 @@
 import logging
 import re
 
-from aprsd import packets
+from aprsd import packets, plugin
 from oslo_config import cfg
 
 import aprsd_slack_plugin
@@ -14,7 +14,11 @@ CONF = cfg.CONF
 LOG = logging.getLogger("APRSD")
 
 
-class SlackMessagePlugin(base_plugin.SlackPluginBase):
+class SlackMessagePlugin(
+    base_plugin.SlackPluginBase,
+    plugin.APRSDRegexCommandPluginBase,
+    plugin.APRSFIKEYMixin,
+):
     """SlackMessagePlugin.
 
     This APRSD plugin looks for the slack msg command comming in
